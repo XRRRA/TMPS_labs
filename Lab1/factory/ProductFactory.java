@@ -1,7 +1,8 @@
 package factory;
 
-import models.Computer;
+import domain.Product;
+
 
 public abstract class ProductFactory {
-    public abstract Computer createProduct(String brand, String model);
+    public abstract Product createProduct(String brand, String model);
 }
