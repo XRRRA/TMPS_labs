@@ -1,12 +1,16 @@
 package client;
 
+import adapters.AdvancedProductAdapter;
+import decorators.DiscountDecorator;
+import domain.AdvancedProduct;
 import domain.Store;
 import domain.Product;
-import factory.ComputerFactory;
-import factory.SmartphoneFactory;
-import factory.ProductFactory;
-import models.ComputerBuilder;
-import models.SmartphoneBuilder;
+import domain.factory.ComputerFactory;
+import domain.factory.SmartphoneFactory;
+import domain.factory.ProductFactory;
+import domain.builder.ComputerBuilder;
+import domain.builder.SmartphoneBuilder;
+import facade.StoreFacade;
 
 public class Main {
     public static void main(String[] args) {
@@ -32,7 +36,6 @@ public class Main {
                 .build();
         store.addProduct(customComputer);
 
-
         Product customSmartphone = new SmartphoneBuilder()
                 .setBrand("Apple")
                 .setModel("16 pro Max")
@@ -42,7 +45,23 @@ public class Main {
                 .build();
         store.addProduct(customSmartphone);
 
+        // Adapter Pattern -  allows two incompatible interfaces to work together
+        AdvancedProduct advancedProduct = new AdvancedProductAdapter(computer);
+        advancedProduct.showDetailedProductInfo();
+
+        // Decorator Pattern - add new functionality to objects dynamically
+        Product discountedSmartphone = new DiscountDecorator(smartphone, 10.0);
+        discountedSmartphone.displayProductInfo();
+
+        // Facade Pattern - simplify complex operations by implementing one unified interface
+        StoreFacade storeFacade = new StoreFacade();
+
+        storeFacade.addProduct(new ComputerFactory(), "Apple", "MacBook Air");
+        storeFacade.addProduct(new SmartphoneFactory(), "Sonny", "Xperia 9");
+
+        storeFacade.showInventory();
+
         // Display the store's inventory
-        store.displayInventory();
+//        store.displayInventory();
     }
 }
