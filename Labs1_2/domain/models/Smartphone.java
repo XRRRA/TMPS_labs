@@ -1,12 +1,12 @@
-package models;
+package domain.models;
 
 import domain.Product;
 
 public class Smartphone extends Product {
 
-    private String color;
-    private int ram;
-    private int storage;
+    private final String color;
+    private final int ram;
+    private final int storage;
 
     public Smartphone(String brand, String model, String color, int ram, int storage) {
         super(brand, model);

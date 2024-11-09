@@ -1,4 +1,6 @@
-package models;
+package domain.builder;
+
+import domain.models.Smartphone;
 
 public class SmartphoneBuilder {
     private String brand;

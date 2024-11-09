@@ -4,10 +4,10 @@
    The Singleton pattern is used to ensure that a class has only one instance while providing a global access point to this instance. In this project, the Singleton pattern is applied to the `Store` class. By making the constructor private and providing a static `getInstance` method, only one instance of `Store` can be created and accessed throughout the application, allowing all products to be stored in a single inventory.
 
 2. **Factory Method Pattern:**
-   The Factory Method pattern provides an interface for creating objects in a superclass but allows subclasses to alter the type of objects that will be created. Here, `ProductFactory` serves as the abstract factory, with `ComputerFactory` and `SmartphoneFactory` as concrete implementations. Each factory creates a specific product (`Computer` or `Smartphone`), following a consistent interface that allows the client code to request a product without needing to know the specific instantiation details.
+   The Factory Method pattern provides an interface for creating objects in a superclass but allows subclasses to alter the type of objects that will be created. Here, `ProductFactory` serves as the abstract domain.factory, with `ComputerFactory` and `SmartphoneFactory` as concrete implementations. Each domain.factory creates a specific product (`Computer` or `Smartphone`), following a consistent interface that allows the client code to request a product without needing to know the specific instantiation details.
 
 3. **Builder Pattern:**
-   The Builder pattern is used to construct complex objects step-by-step. This pattern is useful when the object requires numerous attributes, some of which may be optional. In this project, builders (`ComputerBuilder` and `SmartphoneBuilder`) are used to create customized `Computer` and `Smartphone` instances. Each builder allows setting various attributes individually, and then calling the `build` method to create the final object.
+   The Builder pattern is used to construct complex objects step-by-step. This pattern is useful when the object requires numerous attributes, some of which may be optional. In this project, builders (`ComputerBuilder` and `SmartphoneBuilder`) are used to create customized `Computer` and `Smartphone` instances. Each domain.builder allows setting various attributes individually, and then calling the `build` method to create the final object.
 
 ---
 
@@ -16,53 +16,53 @@
 #### `Main.java`
 
 ```java
-package client;  
-  
-import domain.Store;  
-import domain.Product;  
-import factory.ComputerFactory;  
-import factory.SmartphoneFactory;  
-import factory.ProductFactory;  
-import models.ComputerBuilder;  
-import models.SmartphoneBuilder;  
-  
-public class Main {  
-    public static void main(String[] args) {  
-        // Singleton - Accessing the store instance  
-        Store store = Store.getInstance();  
-  
-        // Factory Method - Creating products through specific factories  
-        ProductFactory computerFactory = new ComputerFactory();  
-        Product computer = computerFactory.createProduct("Lenovo", "Legion 5i pro");  
-        store.addProduct(computer);  
-  
-        SmartphoneFactory smartphoneFactory = new SmartphoneFactory();  
-        Product smartphone = smartphoneFactory.createProduct("Samsung", "Galaxy S23");  
-        store.addProduct(smartphone);  
-  
-        // Builder Pattern - Building a customized computer  
-        Product customComputer = new ComputerBuilder()  
-                .setBrand("Asus")  
-                .setModel("ROG")  
-                .setCpu("AMD Ryzen 7")  
-                .setRam(16)  
-                .setStorage(512)  
-                .build();  
-        store.addProduct(customComputer);  
-  
-  
-        Product customSmartphone = new SmartphoneBuilder()  
-                .setBrand("Apple")  
-                .setModel("16 pro Max")  
-                .setColor("Space gray")  
-                .setRam(8)  
-                .setStorage(512)  
-                .build();  
-        store.addProduct(customSmartphone);  
-  
-        // Display the store's inventory  
-        store.displayInventory();  
-    }  
+package client;
+
+import domain.Store;
+import domain.Product;
+import domain.factory.ComputerFactory;
+import domain.factory.SmartphoneFactory;
+import domain.factory.ProductFactory;
+import domain.builder.ComputerBuilder;
+import domain.builder.SmartphoneBuilder;
+
+public class Main {
+   public static void main(String[] args) {
+      // Singleton - Accessing the store instance  
+      Store store = Store.getInstance();
+
+      // Factory Method - Creating products through specific factories  
+      ProductFactory computerFactory = new ComputerFactory();
+      Product computer = computerFactory.createProduct("Lenovo", "Legion 5i pro");
+      store.addProduct(computer);
+
+      SmartphoneFactory smartphoneFactory = new SmartphoneFactory();
+      Product smartphone = smartphoneFactory.createProduct("Samsung", "Galaxy S23");
+      store.addProduct(smartphone);
+
+      // Builder Pattern - Building a customized computer  
+      Product customComputer = new ComputerBuilder()
+              .setBrand("Asus")
+              .setModel("ROG")
+              .setCpu("AMD Ryzen 7")
+              .setRam(16)
+              .setStorage(512)
+              .build();
+      store.addProduct(customComputer);
+
+
+      Product customSmartphone = new SmartphoneBuilder()
+              .setBrand("Apple")
+              .setModel("16 pro Max")
+              .setColor("Space gray")
+              .setRam(8)
+              .setStorage(512)
+              .build();
+      store.addProduct(customSmartphone);
+
+      // Display the store's inventory  
+      store.displayInventory();
+   }
 }
 ```
 
@@ -83,7 +83,7 @@ The `Main` class in this Java application is the entry point for executing the c
    Product computer = computerFactory.createProduct("Lenovo", "Legion 5i pro");
    store.addProduct(computer);
    ```
-    - Here, a `ComputerFactory` object is created, which extends the `ProductFactory` abstract class. Using this factory object, we call `createProduct` to create a `Computer` with specified attributes (e.g., "Lenovo" as the brand and "Legion 5i pro" as the model).
+    - Here, a `ComputerFactory` object is created, which extends the `ProductFactory` abstract class. Using this domain.factory object, we call `createProduct` to create a `Computer` with specified attributes (e.g., "Lenovo" as the brand and "Legion 5i pro" as the model).
     - The newly created `computer` object is then added to the `store` inventory by calling `store.addProduct(computer)`.
 
    ```java
@@ -125,7 +125,7 @@ The `Main` class in this Java application is the entry point for executing the c
     - Similarly, a `SmartphoneBuilder` is used to create a customized smartphone by setting the brand, model, color, RAM, and storage.
     - The `build()` method produces a `Smartphone` object that’s added to the inventory.
 
-   **Explanation:** The Builder Pattern here allows for flexible and readable product creation, particularly for products with many attributes. Each builder step method returns the builder itself, allowing method chaining.
+   **Explanation:** The Builder Pattern here allows for flexible and readable product creation, particularly for products with many attributes. Each domain.builder step method returns the domain.builder itself, allowing method chaining.
 
 4. **Displaying the Store Inventory:**
    ```java
@@ -209,16 +209,16 @@ public class Store {
 ### `ProductFactory.java`
 
 ```java
-package factory;
+package domain.factory;
 
 import domain.Product;
 
 public abstract class ProductFactory {
-    public abstract Product createProduct(String brand, String model);
+   public abstract Product createProduct(String brand, String model);
 }
 ```
 
-- `ProductFactory` is an **abstract factory class** that defines the interface for creating products.
+- `ProductFactory` is an **abstract domain.factory class** that defines the interface for creating products.
 - The `createProduct` method is abstract, meaning any subclass must implement it to provide specific details for creating a product.
 - This design allows `ProductFactory` subclasses (like `ComputerFactory` and `SmartphoneFactory`) to define how they create specific types of products. The client code can use these factories without knowing the exact class or creation details of the product.
 
@@ -227,15 +227,15 @@ public abstract class ProductFactory {
 ### `ComputerFactory.java`
 
 ```java
-package factory;
+package domain.factory;
 
-import models.Computer;
+import domain.models.Computer;
 
-public class ComputerFactory extends factory.ProductFactory {
-    @Override
-    public Computer createProduct(String brand, String model) {
-        return new Computer(brand, model, "Intel i5", 8, 2048);
-    }
+public class ComputerFactory extends domain.factory.ProductFactory {
+   @Override
+   public Computer createProduct(String brand, String model) {
+      return new Computer(brand, model, "Intel i5", 8, 2048);
+   }
 }
 ```
 
@@ -248,15 +248,15 @@ public class ComputerFactory extends factory.ProductFactory {
 ### `SmartphoneFactory.java`
 
 ```java
-package factory;
+package domain.factory;
 
-import models.Smartphone;
+import domain.models.Smartphone;
 
-public class SmartphoneFactory extends factory.ProductFactory {
-    @Override
-    public Smartphone createProduct(String brand, String model) {
-        return new Smartphone(brand, model, "Titanium gray", 8, 128);
-    }
+public class SmartphoneFactory extends domain.factory.ProductFactory {
+   @Override
+   public Smartphone createProduct(String brand, String model) {
+      return new Smartphone(brand, model, "Titanium gray", 8, 128);
+   }
 }
 ```
 
@@ -269,26 +269,26 @@ public class SmartphoneFactory extends factory.ProductFactory {
 ### `Computer.java`
 
 ```java
-package models;
+package domain.models;
 
 import domain.Product;
 
 public class Computer extends Product {
-    private String cpu;
-    private int ram;
-    private int storage;
+   private String cpu;
+   private int ram;
+   private int storage;
 
-    public Computer(String brand, String model, String cpu, int ram, int storage) {
-        super(brand, model);
-        this.cpu = cpu;
-        this.ram = ram;
-        this.storage = storage;
-    }
+   public Computer(String brand, String model, String cpu, int ram, int storage) {
+      super(brand, model);
+      this.cpu = cpu;
+      this.ram = ram;
+      this.storage = storage;
+   }
 
-    @Override
-    public void displayProductInfo() {
-        System.out.println("Computer [Brand=" + brand + ", Model=" + model + ", CPU=" + cpu + ", RAM=" + ram + "GB, Storage=" + storage + "GB]");
-    }
+   @Override
+   public void displayProductInfo() {
+      System.out.println("Computer [Brand=" + brand + ", Model=" + model + ", CPU=" + cpu + ", RAM=" + ram + "GB, Storage=" + storage + "GB]");
+   }
 }
 ```
 
@@ -301,75 +301,75 @@ public class Computer extends Product {
 ### `ComputerBuilder.java`
 
 ```java
-package models;
+package domain.models;
 
 public class ComputerBuilder {
-    private String brand;
-    private String model;
-    private String cpu;
-    private int ram;
-    private int storage;
+   private String brand;
+   private String model;
+   private String cpu;
+   private int ram;
+   private int storage;
 
-    public ComputerBuilder setBrand(String brand) {
-        this.brand = brand;
-        return this;
-    }
+   public domain.builder.ComputerBuilder setBrand(String brand) {
+      this.brand = brand;
+      return this;
+   }
 
-    public ComputerBuilder setModel(String model) {
-        this.model = model;
-        return this;
-    }
+   public domain.builder.ComputerBuilder setModel(String model) {
+      this.model = model;
+      return this;
+   }
 
-    public ComputerBuilder setCpu(String cpu) {
-        this.cpu = cpu;
-        return this;
-    }
+   public domain.builder.ComputerBuilder setCpu(String cpu) {
+      this.cpu = cpu;
+      return this;
+   }
 
-    public ComputerBuilder setRam(int ram) {
-        this.ram = ram;
-        return this;
-    }
+   public domain.builder.ComputerBuilder setRam(int ram) {
+      this.ram = ram;
+      return this;
+   }
 
-    public ComputerBuilder setStorage(int storage) {
-        this.storage = storage;
-        return this;
-    }
+   public domain.builder.ComputerBuilder setStorage(int storage) {
+      this.storage = storage;
+      return this;
+   }
 
-    public Computer build() {
-        return new Computer(brand, model, cpu, ram, storage);
-    }
+   public Computer build() {
+      return new Computer(brand, model, cpu, ram, storage);
+   }
 }
 ```
 
 - `ComputerBuilder` uses the **Builder Pattern** to create a `Computer` object with customizable attributes.
-- Each setter method (`setBrand`, `setModel`, etc.) sets an attribute and returns the builder itself, enabling **method chaining**.
-- The `build` method creates and returns a `Computer` instance using the attributes set in the builder. This approach allows client code to create complex objects step-by-step with readable syntax.
+- Each setter method (`setBrand`, `setModel`, etc.) sets an attribute and returns the domain.builder itself, enabling **method chaining**.
+- The `build` method creates and returns a `Computer` instance using the attributes set in the domain.builder. This approach allows client code to create complex objects step-by-step with readable syntax.
 
 ---
 
 ### `Smartphone.java`
 
 ```java
-package models;
+package domain.models;
 
 import domain.Product;
 
 public class Smartphone extends Product {
-    private String color;
-    private int ram;
-    private int storage;
+   private String color;
+   private int ram;
+   private int storage;
 
-    public Smartphone(String brand, String model, String color, int ram, int storage) {
-        super(brand, model);
-        this.color = color;
-        this.ram = ram;
-        this.storage = storage;
-    }
+   public Smartphone(String brand, String model, String color, int ram, int storage) {
+      super(brand, model);
+      this.color = color;
+      this.ram = ram;
+      this.storage = storage;
+   }
 
-    @Override
-    public void displayProductInfo() {
-        System.out.println("Smartphone [Brand=" + brand + ", Model=" + model + ", Color=" + color + ", RAM=" + ram + "GB, Storage=" + storage + "GB]");
-    }
+   @Override
+   public void displayProductInfo() {
+      System.out.println("Smartphone [Brand=" + brand + ", Model=" + model + ", Color=" + color + ", RAM=" + ram + "GB, Storage=" + storage + "GB]");
+   }
 }
 ```
 
@@ -382,48 +382,48 @@ public class Smartphone extends Product {
 ### `SmartphoneBuilder.java`
 
 ```java
-package models;
+package domain.models;
 
 public class SmartphoneBuilder {
-    private String brand;
-    private String model;
-    private String color;
-    private int ram;
-    private int storage;
+   private String brand;
+   private String model;
+   private String color;
+   private int ram;
+   private int storage;
 
-    public SmartphoneBuilder setBrand(String brand) {
-        this.brand = brand;
-        return this;
-    }
+   public domain.builder.SmartphoneBuilder setBrand(String brand) {
+      this.brand = brand;
+      return this;
+   }
 
-    public SmartphoneBuilder setModel(String model) {
-        this.model = model;
-        return this;
-    }
+   public domain.builder.SmartphoneBuilder setModel(String model) {
+      this.model = model;
+      return this;
+   }
 
-    public SmartphoneBuilder setColor(String color) {
-        this.color = color;
-        return this;
-    }
+   public domain.builder.SmartphoneBuilder setColor(String color) {
+      this.color = color;
+      return this;
+   }
 
-    public SmartphoneBuilder setRam(int ram) {
-        this.ram = ram;
-        return this;
-    }
+   public domain.builder.SmartphoneBuilder setRam(int ram) {
+      this.ram = ram;
+      return this;
+   }
 
-    public SmartphoneBuilder setStorage(int storage) {
-        this.storage = storage;
-        return this;
-    }
+   public domain.builder.SmartphoneBuilder setStorage(int storage) {
+      this.storage = storage;
+      return this;
+   }
 
-    public Smartphone build() {
-        return new Smartphone(brand, model, color, ram, storage);
-    }
+   public Smartphone build() {
+      return new Smartphone(brand, model, color, ram, storage);
+   }
 }
 ```
 
-- `SmartphoneBuilder` is the builder for `Smartphone` objects, using the **Builder Pattern** to create a `Smartphone` step-by-step.
-- Each setter method sets an attribute, returning the builder itself to allow chaining.
+- `SmartphoneBuilder` is the domain.builder for `Smartphone` objects, using the **Builder Pattern** to create a `Smartphone` step-by-step.
+- Each setter method sets an attribute, returning the domain.builder itself to allow chaining.
 - `build` finalizes the object creation, returning a `Smartphone` instance with the specified attributes. This setup enables flexible and clear customization for each `Smartphone` instance.
 
 ---
@@ -433,7 +433,7 @@ public class SmartphoneBuilder {
 This laboratory project demonstrates the effective application of three core creational design patterns: Singleton, Factory Method, and Builder, within a simulated tech store application. By selecting and implementing these patterns, we achieve a modular, maintainable, and scalable system that meets real-world requirements for object creation and resource management.
 
 - **Singleton Pattern** is utilized to ensure a single, globally accessible `Store` instance, which prevents resource duplication and maintains a centralized inventory.
-- **Factory Method Pattern** streamlines object creation, allowing new products like computers and smartphones to be instantiated in a consistent, standardized way. This approach separates instantiation logic from the client, fostering extensibility as new product types can be added by simply extending the factory.
+- **Factory Method Pattern** streamlines object creation, allowing new products like computers and smartphones to be instantiated in a consistent, standardized way. This approach separates instantiation logic from the client, fostering extensibility as new product types can be added by simply extending the domain.factory.
 - **Builder Pattern** enhances object customization for complex products, enabling developers to create variations of a product with differing specifications in an organized, readable, and manageable format.
 
 Each design pattern addresses a specific aspect of object creation and contributes to reducing dependencies and increasing flexibility. Through this project, we gain hands-on experience in solving common software design challenges, showcasing how creational patterns can be practically implemented to create well-structured and maintainable systems.

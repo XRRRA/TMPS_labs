@@ -1,4 +1,6 @@
-package models;
+package domain.builder;
+
+import domain.models.Computer;
 
 public class ComputerBuilder {
     private String brand;

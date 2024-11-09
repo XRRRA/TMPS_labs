@@ -1,11 +1,11 @@
-package models;
+package domain.models;
 
 import domain.Product;
 
 public class Computer extends Product {
-    private String cpu;
-    private int ram;
-    private int storage;
+    private final String cpu;
+    private final int ram;
+    private final int storage;
 
     public Computer(String brand, String model, String cpu, int ram, int storage) {
         super(brand, model);

@@ -1,8 +1,8 @@
-package factory;
+package domain.factory;
 
-import models.Computer;
+import domain.models.Computer;
 
-public class ComputerFactory extends factory.ProductFactory {
+public class ComputerFactory extends domain.factory.ProductFactory {
     @Override
     public Computer createProduct(String brand, String model) {
         return new Computer(brand, model, "Intel i5", 8, 2048);

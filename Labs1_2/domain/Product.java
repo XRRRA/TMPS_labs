@@ -1,8 +1,8 @@
 package domain;
 
 public abstract class Product {
-    protected String brand;
-    protected String model;
+    public String brand;
+    public String model;
 
     public Product(String brand, String model) {
         this.brand = brand;
@@ -10,4 +10,9 @@ public abstract class Product {
     }
 
     public abstract void displayProductInfo();
+
+    @Override
+    public String toString() {
+        return brand + " " + model;
+    }
 }

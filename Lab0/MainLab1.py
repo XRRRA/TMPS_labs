@@ -1,8 +1,8 @@
 package client;
 
 import domain.*;
-import factory.ProductFactory;
-import models.*;
+import domain.factory.ProductFactory;
+import domain.models.*;
 
 public class Main {
     public static void main(String[] args) {
