@@ -3,19 +3,30 @@ package client;
 import adapters.AdvancedProductAdapter;
 import decorators.DiscountDecorator;
 import domain.AdvancedProduct;
-import domain.Store;
 import domain.Product;
+import domain.Store;
 import domain.factory.ComputerFactory;
 import domain.factory.SmartphoneFactory;
 import domain.factory.ProductFactory;
 import domain.builder.ComputerBuilder;
 import domain.builder.SmartphoneBuilder;
+import domain.observer.StoreObserver;
 import facade.StoreFacade;
 
 public class Main {
     public static void main(String[] args) {
         // Singleton - Accessing the store instance
         Store store = Store.getInstance();
+
+        // Create and attach observers
+        StoreObserver observer1 = new StoreObserver("Observer1");
+        StoreObserver observer2 = new StoreObserver("Observer2");
+        store.attach(observer1);
+        store.attach(observer2);
+
+        // Update inventory and notify observers
+        store.updateInventory("Laptop", 10);
+        store.updateInventory("Smartphone", 20);
 
         // Factory Method - Creating products through specific factories
         ProductFactory computerFactory = new ComputerFactory();

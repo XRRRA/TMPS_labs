@@ -85,7 +85,7 @@ In this project, I used three structural design patterns — **Adapter**, **Deco
   ```java  
   // facade/StoreFacade.java  
   package facade;  
-  import domain.Product; import domain.Store; import factory.ProductFactory;  
+  import domain.Product;  import factory.ProductFactory;  
     
   public class StoreFacade {  
       private final Store store = Store.getInstance();  
